@@ -1,4 +1,9 @@
 /**
+ * This is what you need to import to your AppDelegate.m for getting mac address.
+ */
+#import "MacAddressHelper.h"
+
+/**
  * This is what you need to add to your applicationDidFinishLaunching
  */
 - (void)applicationDidFinishLaunching:(UIApplication *)application
@@ -38,6 +43,8 @@
 	
 	// Get the users Device Model, Display Name, Unique ID, Token & Version Number
 	UIDevice *dev = [UIDevice currentDevice];
+	NSString *macAddress = [MacAddressHelper getMacAddress];
+	/* deviceUuid is deprecated by Apple.
 	NSString *deviceUuid;
 	if ([dev respondsToSelector:@selector(uniqueIdentifier)])
 		deviceUuid = dev.uniqueIdentifier;
@@ -53,6 +60,7 @@
 			[defaults setObject:deviceUuid forKey:@"deviceUuid"];
 		}
 	}
+	*/
 	NSString *deviceName = dev.name;
 	NSString *deviceModel = dev.model;
 	NSString *deviceSystemVersion = dev.systemVersion;
@@ -71,7 +79,7 @@
 	// !!! CHANGE "/apns.php?" TO THE PATH TO WHERE apns.php IS INSTALLED 
 	// !!! ( MUST START WITH / AND END WITH ? ). 
 	// !!! SAMPLE: "/path/to/apns.php?"
-	NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&appname=%@&appversion=%@&deviceuid=%@&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushbadge=%@&pushalert=%@&pushsound=%@", @"register", appName,appVersion, deviceUuid, deviceToken, deviceName, deviceModel, deviceSystemVersion, pushBadge, pushAlert, pushSound];
+	NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&appname=%@&appversion=%@&macAddress=%@&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushbadge=%@&pushalert=%@&pushsound=%@", @"register", appName,appVersion, macAddress, deviceToken, deviceName, deviceModel, deviceSystemVersion, pushBadge, pushAlert, pushSound];
 	
 	// Register the Device Data
 	// !!! CHANGE "http" TO "https" IF YOU ARE USING HTTPS PROTOCOL
